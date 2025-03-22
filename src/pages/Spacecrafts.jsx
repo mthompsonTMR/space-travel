@@ -1,51 +1,65 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Card, CardContent, Typography, Container, Grid, Button } from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Card, CardContent, Typography, Container, Grid, Button, CardMedia } from "@mui/material";
+
+const initialSpacecrafts = [
+  { 
+    id: 52, 
+    name: "Space Shuttle Discovery", 
+    capacity: 7, 
+    description: "Famous for carrying the Hubble Space Telescope", 
+    imageUrl: "/spaceshuttle.jpg"  // No need for /images/
+  }
+];
+
 
 const Spacecrafts = () => {
   const [ships, setShips] = useState([]);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  // Load spacecrafts from localStorage on mount
+  const searchParams = new URLSearchParams(location.search);
+  const planetId = searchParams.get("assignTo");
+
   useEffect(() => {
     const storedShips = localStorage.getItem("spacecrafts");
-    if (storedShips) {
-      setShips(JSON.parse(storedShips));
-    }
+    setShips(storedShips ? JSON.parse(storedShips) : initialSpacecrafts);
   }, []);
 
-  // Function to delete a spacecraft
-  const handleDelete = (id) => {
-    const updatedShips = ships.filter((ship) => ship.id !== id);
-    setShips(updatedShips);
-    localStorage.setItem("spacecrafts", JSON.stringify(updatedShips)); // Update localStorage
+  const handleAssign = (ship) => {
+    if (!planetId) return;
+
+    const assignments = JSON.parse(localStorage.getItem("planetAssignments")) || {};
+    assignments[planetId] = ship.imageUrl; // Store only image URL
+    localStorage.setItem("planetAssignments", JSON.stringify(assignments));
+
+    navigate(`/planet/${planetId}`);
   };
 
   return (
     <Container>
       <Typography variant="h3" gutterBottom>
-        Spacecrafts
+        {planetId ? "🚀 Select a Spacecraft for Your Mission" : "Spacecrafts"}
       </Typography>
+
       <Grid container spacing={3}>
-        {ships.length > 0 ? (
-          ships.map((ship) => (
-            <Grid item xs={12} sm={6} md={4} key={ship.id}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h5" component={Link} to={`/spacecraft/${ship.id}`} style={{ textDecoration: "none", color: "inherit" }}>
-                    {ship.name}
-                  </Typography>
-                  <Typography variant="body1"><strong>Capacity:</strong> {ship.capacity} astronauts</Typography>
-                  <Typography variant="body2">{ship.description}</Typography>
-                  <Button variant="contained" color="secondary" sx={{ mt: 1 }} onClick={() => handleDelete(ship.id)}>
-                    Delete
+        {ships.map((ship) => (
+          <Grid item xs={12} sm={6} md={4} key={ship.id}>
+            <Card>
+              <CardMedia component="img" image={ship.imageUrl} alt={ship.name} sx={{ height: 140 }} />
+              <CardContent>
+                <Typography variant="h5">{ship.name}</Typography>
+                <Typography variant="body1"><strong>Capacity:</strong> {ship.capacity} astronauts</Typography>
+                <Typography variant="body2">{ship.description}</Typography>
+                {planetId && (
+                  <Button variant="contained" color="primary" sx={{ mt: 1 }} onClick={() => handleAssign(ship)}>
+                    Assign to Mission
                   </Button>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))
-        ) : (
-          <Typography variant="h6">No spacecrafts available. Please add one from the "Construct a Spacecraft" page.</Typography>
-        )}
+                )}
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
       </Grid>
     </Container>
   );

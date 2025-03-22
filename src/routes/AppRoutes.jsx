@@ -7,12 +7,13 @@ import Construction from "../pages/Construction.jsx";
 import Planets from "../pages/Planets.jsx";
 import PlanetDetail from "../pages/PlanetDetail.jsx";
 import NotFound from "../pages/NotFound.jsx";
-
+import VehicleTest from "../pages/VehicleTest.jsx";
 const AppRoutes = () => {
   return (
     <Router>
       <Navbar />
       <Routes>
+      <Route path="/test-vehicles" element={<VehicleTest />} />
         <Route path="/" element={<Home />} />
         <Route path="/spacecrafts" element={<Spacecrafts />} />
         <Route path="/spacecraft/:id" element={<SpacecraftDetail />} />

@@ -1,47 +1,67 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Typography, Box, Stack, Button, TextField } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Box,
+  Stack,
+  Button,
+  TextField,
+} from "@mui/material";
+import Vehicles from "../components/Vehicles";
 
 const Construction = () => {
   const [name, setName] = useState("");
   const [capacity, setCapacity] = useState("");
   const [description, setDescription] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const navigate = useNavigate();
+
+  const handleVehicleSelect = (vehicle) => {
+    setImageUrl(vehicle.imageUrl);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (!name.trim() || !capacity.trim() || !description.trim()) {
-      return; // Prevent empty submissions
+      alert("All Fields are required!");
+      return; // Basic validation
     }
 
-    // Retrieve existing spacecrafts from localStorage
+    if (!imageUrl) {
+      alert("Please slect a vehicle type before building the spacecraft!");
+      return;
+    }
+
     const storedShips = localStorage.getItem("spacecrafts");
     const spacecrafts = storedShips ? JSON.parse(storedShips) : [];
 
-    // Assign a new ID
     const newSpacecraft = {
-      id: spacecrafts.length > 0 ? Math.max(...spacecrafts.map((s) => s.id)) + 1 : 1,
+      id:
+        spacecrafts.length > 0
+          ? Math.max(...spacecrafts.map((s) => s.id)) + 1
+          : 1,
       name,
       capacity: parseInt(capacity),
-      description
+      description,
+      imageUrl: imageUrl || "https://via.placeholder.com/150",
     };
 
-    // Update spacecraft list
     const updatedSpacecrafts = [...spacecrafts, newSpacecraft];
     localStorage.setItem("spacecrafts", JSON.stringify(updatedSpacecrafts));
 
-    // Reset form fields
+    // Reset form
     setName("");
     setCapacity("");
     setDescription("");
+    setImageUrl("");
 
-    // Redirect to the spacecrafts page
     navigate("/spacecrafts");
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="md">
       <Box sx={{ mt: 5, p: 3, boxShadow: 3, borderRadius: 2 }}>
         <Typography variant="h4" gutterBottom>
           🚀 Construct a New Spacecraft
@@ -79,11 +99,36 @@ const Construction = () => {
             onChange={(e) => setDescription(e.target.value)}
           />
 
-          <Stack spacing={2} sx={{ mt: 2 }}>
+          {/* 🚀 Vehicle Selector */}
+          <Vehicles onSelect={handleVehicleSelect} />
+
+          {/* 🔍 Preview Selected Image */}
+          {imageUrl && (
+            <Box sx={{ mt: 3, textAlign: "center" }}>
+              <Typography variant="subtitle1" sx={{ mb: 1 }}>
+                Selected Vehicle Preview:
+              </Typography>
+              <img
+                src={imageUrl}
+                alt="Selected spacecraft preview"
+                style={{
+                  maxWidth: "200px",
+                  border: "1px solid #ccc",
+                  borderRadius: "8px"
+                }}
+              />
+            </Box>
+          )}
+
+          <Stack spacing={2} sx={{ mt: 3 }}>
             <Button type="submit" variant="contained" color="primary">
               Build Spacecraft
             </Button>
-            <Button variant="outlined" color="secondary" onClick={() => navigate("/spacecrafts")}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => navigate("/spacecrafts")}
+            >
               View Spacecrafts
             </Button>
           </Stack>

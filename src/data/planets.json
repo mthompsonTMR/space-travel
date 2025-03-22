@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "name": "Mercury",
+    "distanceFromSun": "57.9 million km",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/2e/Mercury_in_color_-_Prockter07_centered.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Venus",
+    "distanceFromSun": "108.2 million km",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e5/Venus-real_color.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Earth",
+    "distanceFromSun": "149.6 million km",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Mars",
+    "distanceFromSun": "227.9 million km",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Jupiter",
+    "distanceFromSun": "778.3 million km",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Jupiter.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Saturn",
+    "distanceFromSun": "1.43 billion km",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg"
+  },
+  {
+    "id": 7,
+    "name": "Uranus",
+    "distanceFromSun": "2.87 billion km",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3d/Uranus2.jpg"
+  },
+  {
+    "id": 8,
+    "name": "Neptune",
+    "distanceFromSun": "4.50 billion km",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/56/Neptune_Full.jpg"
+  },
+  {
+    "id": 9,
+    "name": "Pluto",
+    "distanceFromSun": "5.91 billion km",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/2a/Nh-pluto-in-true-color_2x_JPEG-edit-frame.jpg"
+  }
+]
